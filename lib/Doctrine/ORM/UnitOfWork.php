@@ -2157,7 +2157,7 @@ class UnitOfWork implements PropertyChangedListener
 
             $this->identityMap[$class->getRootClassName()][$idHash] = $entity;
 
-            $overrideLocalValues = true;
+            $overrideLocalValues = true; // @TODO drop
         }
 
         if ( ! $overrideLocalValues) {
@@ -2202,9 +2202,14 @@ class UnitOfWork implements PropertyChangedListener
             $targetClass  = $this->em->getClassMetadata($targetEntity);
 
             if ($association instanceof ToManyAssociationMetadata) {
+                $associationValue = $association->getValue($entity);
+
                 // Ignore if its a cached collection
                 if (isset($hints[Query::HINT_CACHE_ENABLED]) &&
-                    $association->getValue($entity) instanceof PersistentCollection) {
+                    $associationValue instanceof PersistentCollection
+                    && $associationValue->isInitialized()
+                    && ! $associationValue->isDirty()
+                ) {
                     continue;
                 }
 
