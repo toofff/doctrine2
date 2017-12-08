@@ -1690,12 +1690,20 @@ public function __construct(<params>)
                 $options[] = '"check"="' . $fieldMapping['options']['check'] .'"';
             }
 
+            if (isset($fieldMapping['options']['class']) && $fieldMapping['options']['class']) {
+                $options[] = '"class"="' . $fieldMapping['options']['class'] .'"';
+            }
+
             if ($options) {
                 $column[] = 'options={'.implode(',', $options).'}';
             }
 
             if (isset($fieldMapping['columnDefinition'])) {
                 $column[] = 'columnDefinition="' . $fieldMapping['columnDefinition'] . '"';
+            }
+
+            if (isset($fieldMapping['unique'])) {
+                $column[] = 'unique=' . var_export($fieldMapping['unique'], true);
             }
 
             if (isset($fieldMapping['unique'])) {

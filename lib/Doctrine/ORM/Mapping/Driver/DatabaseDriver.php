@@ -421,6 +421,10 @@ class DatabaseDriver implements MappingDriver
             case Type::SMALLINT:
                 $fieldMapping['options']['unsigned'] = $column->getUnsigned();
                 break;
+
+//            case Type::ENUM:
+//                $fieldMapping['options']['class'] = $column->getClass();
+//                break;
         }
 
         // Comment
